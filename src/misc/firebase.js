@@ -12,3 +12,5 @@ const config = {
 };
 
 const app = firebase.initializeApp(config);
+
+console.log(app)
