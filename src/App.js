@@ -1,24 +1,25 @@
-import React from "react";
-import "./styles/main.scss";
-import "rsuite/dist/rsuite.min.css";
-import { Switch } from "react-router-dom/cjs/react-router-dom.min";
-import SignIn from "./pages/SignIn";
-import PrivateRoute from "./components/PrivateRoute";
-import Home from "./pages/Home";
-import PublicRoute from "./components/PublicRoute";
+import { ChatEngine } from 'react-chat-engine';
 
-function App() {
+import ChatFeed from './components/ChatFeed';
+import LoginForm from './components/LoginForm';
+import './App.css';
+
+const projectID = '868efb3d-a71e-47b3-86bf-ca5060b66a32';
+
+const App = () => {
+  if (!localStorage.getItem('username')) return <LoginForm />;
+
   return (
-    <Switch>
-      <PublicRoute path="/sign in">
-        <SignIn />
-      </PublicRoute>
-
-      <PrivateRoute path="/">
-        <Home />
-      </PrivateRoute>
-    </Switch>
+    <ChatEngine
+      height="100vh"
+      projectID={projectID}
+      userName={localStorage.getItem('username')}
+      userSecret={localStorage.getItem('password')}
+      renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} />}
+      onNewMessage={() => new Audio('https://chat-engine-assets.s3.amazonaws.com/click.mp3').play()}
+    />
   );
-}
+};
+
 
 export default App;
